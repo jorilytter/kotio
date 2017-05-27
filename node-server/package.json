@@ -1,0 +1,33 @@
+{
+  "name": "kotio-node-server",
+  "version": "1.0.0",
+  "description": "kotio REST server nodejs implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jorilytter/kotio.git"
+  },
+  "keywords": [
+    "kotio",
+    "home-automation",
+    "tellstick",
+    "ruuvitag",
+    "sensors",
+    "lights"
+  ],
+  "author": "Jori Lytter",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jorilytter/kotio/issues"
+  },
+  "homepage": "https://github.com/jorilytter/kotio#readme",
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
