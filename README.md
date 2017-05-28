@@ -13,6 +13,10 @@ Currently the server is able to scan for ruuvitag beacons and return their senso
 
 ### Server
 
+Both tellstick and ruuvitag node libraries require node-gyp so make sure you have it installed: `npm install -g node-gyp`.
+
+Tellstick also requires the tellstick dev library, see https://github.com/Hexagon/node-telldus#installation for details.
+
 Accessing bluetooth advertising **requires** sudo/root privileges or a [noble workaround](https://github.com/sandeepmistry/noble#running-on-linux)
 
 #### Install dependencies
