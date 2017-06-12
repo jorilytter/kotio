@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const Promise = require('bluebird')
 const ruuvitag = require('./ruuvitag/sensors')
 const tellstickSensors = require('./tellstick/sensors')
 const tellstickSwitches = require('./tellstick/switches')
@@ -22,15 +23,19 @@ app.get('/tellstick/sensors', function(req, res) {
 })
 
 app.get('/tellstick/switches', function(req, res) {
-  tellstickSwitches.list(switches => res.json(switches))
+  tellstickSwitches.list()
+    .then(response => res.json(response))
+    .catch(e => res.status(500).json(e))
 })
 
 app.post('/tellstick/on', function(req, res) {
   tellstickSwitches.turnOn(req.body)
-  res.json(null)
+    .then(response => res.json(response))
+    .catch(e => res.status(500).json(e))
 })
 
 app.post('/tellstick/off', function(req, res) {
   tellstickSwitches.turnOff(req.body)
-  res.json(null)
+    .then(response => res.json(response))
+    .catch(e => res.status(500).json(e))
 })
