@@ -10,7 +10,7 @@ const app = express()
 app.use(bodyParser.json())
 app.listen(port)
 
-console.log(`express server running on ${port}`)
+console.log(`express HTTP server running on ${port}`)
 
 ruuvitag.start()
 
@@ -19,7 +19,9 @@ app.get('/ruuvitag', function(req, res) {
 })
 
 app.get('/tellstick/sensors', function(req, res) {
-  tellstickSensors.sensors(sensors => res.json(sensors))
+  tellstickSensors.sensors()
+    .then(response => res.json(response))
+    .catch(e => res.status(500).json(e))
 })
 
 app.get('/tellstick/switches', function(req, res) {
