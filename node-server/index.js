@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const Promise = require('bluebird')
 const ruuvitag = require('./ruuvitag/sensors')
 const tellstickSensors = require('./tellstick/sensors')
@@ -8,6 +9,7 @@ const port = 3101
 
 const app = express()
 app.use(bodyParser.json())
+app.use(cors())
 app.listen(port)
 
 console.log(`express HTTP server running on ${port}`)
