@@ -27,5 +27,8 @@
   "homepage": "https://github.com/jorilytter/kotio#readme",
   "devDependencies": {
     "webpack": "^3.0.0"
+  },
+  "dependencies": {
+    "vue": "^2.3.4"
   }
 }
