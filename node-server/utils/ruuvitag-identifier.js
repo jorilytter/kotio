@@ -1,5 +1,5 @@
 const scanner = require('eddystone-beacon-scanner')
-const SCANTIME = 5000
+const SCANTIME = 10000
 
 scanner.on('found', print)
 
