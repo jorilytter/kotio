@@ -7,7 +7,10 @@
   </head>
   <body>
     <div id="app">
-      {{ ruuvitags }}
+      <div>{{ ruuvitags }}</div>
+      <div v-for="tag in ruuvitags">
+        <ruuvitag  v-if="tag.data" :tag="tag"></ruuvitag>
+      </div>
     </div>
     <script src="bundle.js"></script>
   </body>
