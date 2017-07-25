@@ -27,15 +27,34 @@ const tdSensorData = {
   }
 }
 
+const toggleSwitch = (url, deviceIds) => {
+  const postHeaders = {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
+  const postBody = JSON.stringify(deviceIds)
+  return fetch(url, {method: 'POST', mode: 'cors', body: postBody, headers: postHeaders})
+    .then(response => response.json())
+    .then(data => app.tellstickSwitches = data)
+}
+
 const tdSwitchData = {
   template:'<div class="tag">\
     <div class="tag-name">{{device.name}}</div>\
     <div class="tag-temperature">{{device.id}}</div>\
-    <div class="tag-humidity"><i v-if="device.switchedOn" class="fa fa-power-off fa-lg yellow icon"></i><i v-else class="fa fa-power-off fa-lg red icon"></i></div>\
+    <div class="tag-humidity">\
+      <i v-if="device.switchedOn" v-on:click="turnOff(device.id)" class="fa fa-power-off fa-lg yellow icon clickable"></i>\
+      <i v-else v-on:click="turnOn(device.id)" class="fa fa-power-off fa-lg red icon clickable"></i>\
+    </div>\
     </div>',
   props: ['device'],
   data: function() {
     return {}
+  },
+  methods: {
+    turnOn: function(deviceId) {
+      toggleSwitch(api.turnOnSwitch, [deviceId])
+    },
+    turnOff: function(deviceId) {
+      toggleSwitch(api.turnOffSwitch, [deviceId])
+    }
   }
 }
 
@@ -49,7 +68,7 @@ const app = new Vue({
   components: {
     'ruuvitag': tagData,
     'tdsensor': tdSensorData,
-    'tdswitch': tdSwitchData,
+    'tdswitch': tdSwitchData
   }
 })
 
