@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {api} from './config.js'
-import css from './index.css'
+require('./index.css')
 
 const tagData = {
   template:'<div class="tag">\
@@ -16,10 +16,10 @@ const tagData = {
 }
 
 const tdSensorData = {
-  template:'<div class="tag">\
-    <div class="tag-name">{{sensor.name}}</div>\
-    <div class="tag-temperature"><i class="fa fa-thermometer-half fa-lg yellow icon"></i>{{sensor.temperature}} &deg;C</div>\
-    <div class="tag-humidity" v-if="sensor.humidity"><i class="fa fa-tint fa-lg blue icon"></i>{{sensor.humidity}}%</div>\
+  template:'<div class="sensor">\
+    <div class="sensor-name">{{sensor.name}}</div>\
+    <div class="sensor-temperature"><i class="fa fa-thermometer-half fa-lg yellow icon"></i>{{sensor.temperature}} &deg;C</div>\
+    <div class="sensor-humidity" v-if="sensor.humidity"><i class="fa fa-tint fa-lg blue icon"></i>{{sensor.humidity}}%</div>\
     </div>',
   props: ['sensor'],
   data: function() {
@@ -36,13 +36,12 @@ const toggleSwitch = (url, deviceIds) => {
 }
 
 const tdSwitchData = {
-  template:'<div class="tag">\
-    <div class="tag-name">{{device.name}}</div>\
-    <div class="tag-temperature">{{device.id}}</div>\
-    <div class="tag-humidity">\
+  template:'<div class="switch">\
+    <div class="switch-status">\
       <i v-if="device.switchedOn" v-on:click="turnOff(device.id)" class="fa fa-power-off fa-lg yellow icon clickable"></i>\
       <i v-else v-on:click="turnOn(device.id)" class="fa fa-power-off fa-lg red icon clickable"></i>\
     </div>\
+    <div class="switch-name">{{device.name}}</div>\
     </div>',
   props: ['device'],
   data: function() {

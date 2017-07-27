@@ -4,14 +4,13 @@
     <meta name="author" content="Jori Lytter">
     <meta name="description" content="Kotio home automation">
     <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./style/fonts/leaguegothic/stylesheet.css">
+    <link rel="stylesheet" href="./style/fonts/opensans/stylesheet.css">
     <title>Kotio</title>
   </head>
   <body>
     <div id="app">
-      <div>
-        <div>
-          <h1>Sensors</h1>
-        </div>
+      <div class="sensors">
         <div v-for="tag in ruuvitags">
           <ruuvitag v-if="tag.data" :tag="tag"></ruuvitag>
         </div>
@@ -19,18 +18,12 @@
           <tdsensor v-if="sensor.id" :sensor="sensor"></tdsensor>
         </div>
       </div>
-      <div>
-        <div>
-          <h1>Switches</h1>
-        </div>
+      <div class="switches">
         <div v-for="device in tellstickSwitches.devices">
           <tdswitch v-if="device.id" :device="device"></tdswitch>
         </div>
       </div>
-      <div>
-        <div>
-          <h1>Switch groups</h1>
-        </div>
+      <div class="switch-groups">
         <div v-for="group in tellstickSwitches.groups">
           <tdswitch v-if="group.id" :device="group"></tdswitch>
         </div>

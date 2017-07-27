@@ -1,10 +1,20 @@
 body {
-  background-color: #e6e6e6;
+  background-color: #fff;
   color: #264040;
+  max-width: 1000px;
+  margin: auto;
+  font-family: "Open Sans";
+  font-style: normal;
+}
+
+h3 {
+  font-size: 1.3em;
+  margin-top: 1px;
+  margin-bottom: 1px;
 }
 
 .yellow {
-  color: #cccc00;
+  color: #94b31d;
 }
 
 .blue {
@@ -27,12 +37,21 @@ body {
   cursor: pointer;
 }
 
+.sensors, .switches, .switch-groups {
+  max-width: 990px;
+  background-color: #e6e6e6;
+  padding: 5px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
 .tag-name {
   grid-area: tag-name;
 }
 
 .tag-temperature {
   grid-area: tag-temperature;
+  margin-left: 5px;
 }
 
 .tag-humidity {
@@ -43,19 +62,102 @@ body {
   grid-area: tag-pressure;
 }
 
-.tag {
-  padding: 0.5em 0 0.5em 0.5em;
+.sensor-name {
+  grid-area: sensor-name;
+}
+
+.sensor-temperature {
+  grid-area: sensor-temperature;
+  margin-left: 5px;
+}
+
+.sensor-humidity {
+  grid-area: sensor-humidity;
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.switch-name {
+  grid-area: switch-name;
+  font-size: 1em;
+  margin-left: 20px;
+}
+
+.switch-status {
+  grid-area: switch-status;
+  font-size: 3em;
+  margin-left: 35px;
+  padding-top: 10px;
+}
+
+.tag-name, .sensor-name, .switch-status, .switch-name {
+  color: #626262;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.switch-status, .switch-name {
+  justify-self: center;
+}
+
+.tag-name, .sensor-name {
+  justify-self: left;
+  font-size: 1.9em;
+  font-family: "League Gothic";
+  margin-left: 5px;
+}
+
+.tag, .sensor {
+  margin: 5px 0 5px 0;
+  background-color: #d9d9d9;
+  padding: 5px 0 10px 0;
   border-bottom-color: #c0c0c0;
   border-bottom-width: 1px;
   border-bottom-style: solid;
   display: grid;
   grid-gap: 1em;
-  grid-template-columns: 150px 150px 150px 150px;
-  grid-template-areas: "tag-name tag-temperature tag-humidity tag-pressure";
+  grid-template-columns: 230px 230px 230px;
 }
 
-.tag div {
-  justify-items: center;
+.switches, .switch-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 150px);
+  grid-gap: 10px;
+}
+
+.switch {
+  height: 105px;
+  background-color: #d9d9d9;
+  padding: 5px 0 5px 0;
+  border-bottom-color: #c0c0c0;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 135px;
+  grid-template-areas:
+    "switch-status"
+    "switch-name";
+}
+
+.tag {
+  grid-template-areas:
+    "tag-name tag-name tag-name"
+    "tag-temperature tag-humidity tag-pressure";
+}
+
+.sensor {
+  grid-template-areas:
+    "sensor-name sensor-name sensor-name"
+    "sensor-temperature sensor-humidity sensor-humidity";
+}
+
+.tag div i, .sensor div i {
+  font-size: 2em;
+}
+
+.tag-temperature, .tag-humidity, .tag-pressure, .sensor-temperature, .sensor-humidity {
+  justify-self: left;
   font-size: 1.5em;
-  font-weight: normal;
+  font-weight: bold;
 }
