@@ -36,12 +36,17 @@ const toggleSwitch = (url, deviceIds) => {
 }
 
 const tdSwitchData = {
-  template:'<div class="switch">\
-    <div class="switch-status">\
-      <i v-if="device.switchedOn" v-on:click="turnOff(device.id)" class="fa fa-power-off fa-lg yellow icon clickable"></i>\
-      <i v-else v-on:click="turnOn(device.id)" class="fa fa-power-off fa-lg red icon clickable"></i>\
+  template:'<div v-if="device.switchedOn" v-on:click="turnOff(device.id)" class="switch clickable">\
+      <div class="switch-status">\
+        <i class="fa fa-power-off fa-lg yellow icon clickable"></i>\
+      </div>\
+      <div class="switch-name">{{device.name}}</div>\
     </div>\
-    <div class="switch-name">{{device.name}}</div>\
+    <div v-else v-on:click="turnOn(device.id)" class="switch clickable">\
+      <div class="switch-status clickable">\
+        <i class="fa fa-power-off fa-lg red icon"></i>\
+      </div>\
+      <div class="switch-name">{{device.name}}</div>\
     </div>',
   props: ['device'],
   data: function() {
