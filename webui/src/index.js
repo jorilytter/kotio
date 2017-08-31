@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {api} from './config.js'
+import {ruuvitagApi, tellstickApi} from './config.js'
 require('./index.css')
 
 const tagData = {
@@ -54,10 +54,10 @@ const tdSwitchData = {
   },
   methods: {
     turnOn: function(deviceId) {
-      toggleSwitch(api.turnOnSwitch, [deviceId])
+      toggleSwitch(tellstickApi.urls.turnOnSwitch, [deviceId])
     },
     turnOff: function(deviceId) {
-      toggleSwitch(api.turnOffSwitch, [deviceId])
+      toggleSwitch(tellstickApi.urls.turnOffSwitch, [deviceId])
     }
   }
 }
@@ -65,9 +65,12 @@ const tdSwitchData = {
 const app = new Vue({
   el: '#app',
   data: {
-    ruuvitags: 'waiting for data',
-    tellstickSensors: 'waiting for data',
-    tellstickSwitches: 'waiting for data'
+    ruuvitags: ruuvitagApi.enabled,
+    tellstickSensors: tellstickApi.enabled,
+    tellstickSwitches: tellstickApi.enabled,
+    hasSensors: ruuvitagApi.enabled,
+    hasSwitches: false,
+    hasSwitchGroups: false
   },
   components: {
     'ruuvitag': tagData,
@@ -76,14 +79,34 @@ const app = new Vue({
   }
 })
 
-fetch(api.ruuvitags)
-  .then(response => response.json())
-  .then(data => app.ruuvitags = data)
+if (ruuvitagApi.enabled) {
+  fetch(ruuvitagApi.urls.ruuvitags)
+    .then(response => response.json())
+    .then(data => app.ruuvitags = data)
+}
 
-fetch(api.tellstickSensors)
-  .then(response => response.json())
-  .then(data => app.tellstickSensors = data)
+if (tellstickApi.enabled) {
+  fetch(tellstickApi.urls.tellstickSensors)
+    .then(response => response.json())
+    .then(data => {
+      app.tellstickSensors = data
 
-fetch(api.tellstickSwitches)
-  .then(response => response.json())
-  .then(data => app.tellstickSwitches = data)
+      if (data.length > 0) {
+        hasSensors = true
+      }
+    })
+
+  fetch(tellstickApi.urls.tellstickSwitches)
+    .then(response => response.json())
+    .then(data => {
+      app.tellstickSwitches = data
+
+      if (data.devices.length > 0) {
+        app.hasSwitches = true
+      }
+
+      if (data.groups.length > 0) {
+        app.hasSwitchGroups = true
+      }
+    })
+}

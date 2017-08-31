@@ -1,9 +1,19 @@
-const API_URL = 'http://localhost:3101'
+const RUUVITAG_API_URL = 'http://localhost:3101'
+const TELLSTICK_API_URL = 'http://localhost:3101'
 
-export const api = {
-  ruuvitags: `${API_URL}/ruuvitag`,
-  tellstickSensors: `${API_URL}/tellstick/sensors`,
-  tellstickSwitches: `${API_URL}/tellstick/switches`,
-  turnOnSwitch: `${API_URL}/tellstick/on`,
-  turnOffSwitch: `${API_URL}/tellstick/off`
+export const ruuvitagApi = {
+  enabled: true,
+  urls: {
+    ruuvitags: `${RUUVITAG_API_URL}/ruuvitag`
+  }
+}
+
+export const tellstickApi = {
+  enabled: true,
+  urls: {
+    tellstickSensors: `${TELLSTICK_API_URL}/tellstick/sensors`,
+    tellstickSwitches: `${TELLSTICK_API_URL}/tellstick/switches`,
+    turnOnSwitch: `${TELLSTICK_API_URL}/tellstick/on`,
+    turnOffSwitch: `${TELLSTICK_API_URL}/tellstick/off`
+  }
 }
