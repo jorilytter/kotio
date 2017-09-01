@@ -10,7 +10,7 @@
   </head>
   <body>
     <div id="app">
-      <div class="sensors">
+      <div class="sensors" v-if="hasSensors">
         <div v-for="tag in ruuvitags">
           <ruuvitag v-if="tag.data" :tag="tag"></ruuvitag>
         </div>
@@ -18,12 +18,12 @@
           <tdsensor v-if="sensor.id" :sensor="sensor"></tdsensor>
         </div>
       </div>
-      <div class="switches">
+      <div class="switches" v-if="hasSwitches">
         <div v-for="device in tellstickSwitches.devices">
           <tdswitch v-if="device.id" :device="device"></tdswitch>
         </div>
       </div>
-      <div class="switch-groups">
+      <div class="switch-groups" v-if="hasSwitchGroups">
         <div v-for="group in tellstickSwitches.groups">
           <tdswitch v-if="group.id" :device="group"></tdswitch>
         </div>
