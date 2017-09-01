@@ -92,7 +92,7 @@ if (tellstickApi.enabled) {
       app.tellstickSensors = data
 
       if (data.length > 0) {
-        hasSensors = true
+        app.hasSensors = true
       }
     })
 
