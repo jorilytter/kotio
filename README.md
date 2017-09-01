@@ -7,8 +7,9 @@ Home automation application for
 
 ## Status
 
-Currently the server is able to
-* scan for ruuvitag beacons and tellstick sensors and return their sensor data as JSON
+Currently the servers are able to
+* scan for ruuvitag beacons and return their sensor data as JSON
+* scan for tellstick sensors and return their sensor data as JSON
 * commanding and viewing status of tellstick switches and switch groups
 
 The web UI is able to
@@ -17,9 +18,9 @@ The web UI is able to
 
 ## Development and running
 
-### Server
+### Servers
 
-Server runs on Node.js. I have used v6.10.3 on my development computer and v6.9.1 on my original Raspberry Pi B.
+Servers run on Node.js. I have used v6.10.3 on my development computer and v6.9.1 on my original Raspberry Pi B.
 
 Server documentation in it's own [README](node-server/README.md).
 
