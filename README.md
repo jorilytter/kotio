@@ -22,6 +22,8 @@ The web UI is able to
 
 Servers run on Node.js. I have used v6.10.3 on my development computer and v6.9.1 on my original Raspberry Pi B.
 
+I suggest using [pm2](https://github.com/Unitech/pm2) for managing server processes.
+
 Server documentation in it's own [README](node-server/README.md).
 
 ### UI
