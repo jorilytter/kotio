@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {ruuvitagApi, tellstickApi} from './config.js'
+import {ruuvitagApi, tellstickApi, FETCH_INTERVAL} from './config.js'
 require('./index.css')
 
 const tagData = {
@@ -79,34 +79,47 @@ const app = new Vue({
   }
 })
 
-if (ruuvitagApi.enabled) {
-  fetch(ruuvitagApi.urls.ruuvitags)
-    .then(response => response.json())
-    .then(data => app.ruuvitags = data)
+function fetchRuuvitagData() {
+  if (ruuvitagApi.enabled) {
+    fetch(ruuvitagApi.urls.ruuvitags)
+      .then(response => response.json())
+      .then(data => app.ruuvitags = data)
+  }
 }
 
-if (tellstickApi.enabled) {
-  fetch(tellstickApi.urls.tellstickSensors)
-    .then(response => response.json())
-    .then(data => {
-      app.tellstickSensors = data
+function fetchTellstickData() {
+  if (tellstickApi.enabled) {
+    fetch(tellstickApi.urls.tellstickSensors)
+      .then(response => response.json())
+      .then(data => {
+        app.tellstickSensors = data
 
-      if (data.length > 0) {
-        app.hasSensors = true
-      }
-    })
+        if (data.length > 0) {
+          app.hasSensors = true
+        }
+      })
 
-  fetch(tellstickApi.urls.tellstickSwitches)
-    .then(response => response.json())
-    .then(data => {
-      app.tellstickSwitches = data
+    fetch(tellstickApi.urls.tellstickSwitches)
+      .then(response => response.json())
+      .then(data => {
+        app.tellstickSwitches = data
 
-      if (data.devices.length > 0) {
-        app.hasSwitches = true
-      }
+        if (data.devices.length > 0) {
+          app.hasSwitches = true
+        }
 
-      if (data.groups.length > 0) {
-        app.hasSwitchGroups = true
-      }
-    })
+        if (data.groups.length > 0) {
+          app.hasSwitchGroups = true
+        }
+      })
+  }
 }
+
+function fetchData() {
+  fetchRuuvitagData()
+  fetchTellstickData()
+}
+
+fetchData()
+
+setInterval(fetchData, FETCH_INTERVAL)

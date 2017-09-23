@@ -1,6 +1,8 @@
 const RUUVITAG_API_URL = 'http://localhost:3102'
 const TELLSTICK_API_URL = 'http://localhost:3101'
 
+export const FETCH_INTERVAL = 30000
+
 export const ruuvitagApi = {
   enabled: true,
   urls: {
