@@ -2,10 +2,10 @@
 
 Servers run on Node.js. I have used v6.10.3 on my development computer and v6.9.1 on my original Raspberry Pi B.
 
-Kotio consists of multiple servers, one for each type of protocol. Currently two servers have been implemented and third one is coming any day now.
+Kotio consists of multiple servers, one for each type of protocol. Currently three servers have been implemented.
 * Tellstick [README](tellstick/README.md)
 * Ruuvitag [README](ruuvitag/README.md)
-* Philips Hue (incoming)
+* Philips Hue [README](hue/README.md)
 
 ## Node.js on original Raspberry Pi or Raspberry Pi Zero
 

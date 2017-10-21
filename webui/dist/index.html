@@ -28,8 +28,8 @@
           <tdswitch v-if="group.id" :device="group"></tdswitch>
         </div>
       </div>
-      <div class="switches" v-if="hasHueLights">
-        <div v-for="group in hueLights" >
+      <div class="switch-groups" v-if="hasHueGroups">
+        <div v-for="group in hueGroups" >
           <hueswitch :group="group"/>
         </div>
       </div>

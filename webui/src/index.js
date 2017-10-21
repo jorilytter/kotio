@@ -2,6 +2,8 @@ import Vue from 'vue'
 import {ruuvitagApi, tellstickApi, hueApi, FETCH_INTERVAL} from './config.js'
 require('./index.css')
 
+const postHeaders = {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}      
+
 const tagData = {
   template:'<div class="tag">\
     <div class="tag-name">{{tag.name}}</div>\
@@ -28,7 +30,6 @@ const tdSensorData = {
 }
 
 const toggleSwitch = (url, deviceIds) => {
-  const postHeaders = {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
   const postBody = JSON.stringify(deviceIds)
   return fetch(url, {method: 'POST', mode: 'cors', body: postBody, headers: postHeaders})
     .then(response => response.json())
@@ -65,13 +66,13 @@ const tdSwitchData = {
 const hueSwitchData = {
   template:'<div v-if="group.state.attributes.any_on" class="switch clickable" v-on:click="turnOff(group)">\
     <div class="switch-status">\
-      <i class="fa fa-power-off fa-lg red icon"></i>\
+      <i class="fa fa-power-off fa-lg green icon"></i>\
     </div>\
     <div class="switch-name">{{group.attributes.attributes.name}}</div>\
     </div>\
   <div v-else class="switch clickable" v-on:click="turnOn(group)">\
     <div class="switch-status">\
-      <i class="fa fa-power-off fa-lg green icon"></i>\
+      <i class="fa fa-power-off fa-lg red icon"></i>\
     </div>\
     <div class="switch-name">{{group.attributes.attributes.name}}</div>\
   </div>',
@@ -83,18 +84,16 @@ const hueSwitchData = {
   },
   methods: {
     turnOn: function(group) {
-      const postHeaders = {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}      
       const postBody = JSON.stringify({"lights": group.attributes.attributes.lights});
       fetch(hueApi.urls.turnOnSwitch, {method: 'POST', mode: 'cors', body: postBody, headers: postHeaders })
         .then(response => response.json())
-        .then(data => app.hueLights = data)
+        .then(data => app.hueGroups = data)
     },
     turnOff: function(group) {
-      const postHeaders = {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}      
       const postBody = JSON.stringify({"lights": group.attributes.attributes.lights});
       fetch(hueApi.urls.turnOffSwitch, {method: 'POST', mode: 'cors', body: postBody, headers: postHeaders })
         .then(response => response.json())
-        .then(data => app.hueLights = data)
+        .then(data => app.hueGroups = data)
     }
   }
 }
@@ -108,8 +107,8 @@ const app = new Vue({
     hasSensors: ruuvitagApi.enabled,
     hasSwitches: false,
     hasSwitchGroups: false,
-    hueLights: hueApi.enabled,
-    hasHueLights: false
+    hueGroups: hueApi.enabled,
+    hasHueGroups: false
   },
   components: {
     'ruuvitag': tagData,
@@ -159,17 +158,17 @@ function fetchHueData() {
   if (hueApi.enabled) {
     console.log('hueApi enabled!');
     // app.hueSwitches = 'Jee'
-    return fetch(hueApi.urls.init, {'Access-Control-Allow-Origin':'*'}).then(initdata => {
-      return fetch(hueApi.urls.hueGroups)
+    fetch(hueApi.urls.init, {headers: postHeaders}).then(initdata => {
+      fetch(hueApi.urls.hueGroups)
       .then(response => response.json())
       .then(data => {
-        app.hueLights = data
+        app.hueGroups = data
 
         console.log("GROUPS:", data);
 
         if (data.length > 0) {
-          console.log('Yep, got lights!');
-          app.hasHueLights = true;
+          console.log('Yep, got hue groups!');
+          app.hasHueGroups = true;
         }
       })
     })
