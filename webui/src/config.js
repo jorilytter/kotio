@@ -1,11 +1,11 @@
-const TELLSTICK_API_URL = 'http://192.168.1.31:3101'
-const RUUVITAG_API_URL = 'http://192.168.1.31:3102'
-const HUE_API_URL = 'http://192.168.1.7:3103'
+const TELLSTICK_API_URL = 'http://localhost:3101'
+const RUUVITAG_API_URL = 'http://localhost:3102'
+const HUE_API_URL = 'http://localhost:3103'
 
 export const FETCH_INTERVAL = 30000
 
 export const ruuvitagApi = {
-  enabled: false,
+  enabled: true,
   urls: {
     ruuvitags: `${RUUVITAG_API_URL}/ruuvitag`
   }
@@ -22,7 +22,7 @@ export const tellstickApi = {
 }
 
 export const hueApi = {
-  enabled: true,
+  enabled: false,
   urls: {
     turnOnSwitch: `${HUE_API_URL}/turnon`,
     turnOffSwitch: `${HUE_API_URL}/turnoff`,
