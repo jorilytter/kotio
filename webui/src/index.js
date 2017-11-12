@@ -1,6 +1,8 @@
 import Vue from 'vue'
-import {ruuvitagApi, tellstickApi, FETCH_INTERVAL} from './config.js'
+import {ruuvitagApi, tellstickApi, hueApi, FETCH_INTERVAL} from './config.js'
 require('./index.css')
+
+const postHeaders = {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}      
 
 const tagData = {
   template:'<div class="tag">\
@@ -28,7 +30,6 @@ const tdSensorData = {
 }
 
 const toggleSwitch = (url, deviceIds) => {
-  const postHeaders = {'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'}
   const postBody = JSON.stringify(deviceIds)
   return fetch(url, {method: 'POST', mode: 'cors', body: postBody, headers: postHeaders})
     .then(response => response.json())
@@ -62,6 +63,41 @@ const tdSwitchData = {
   }
 }
 
+const hueSwitchData = {
+  template:'<div v-if="group.state.attributes.any_on" class="switch clickable" v-on:click="turnOff(group)">\
+    <div class="switch-status">\
+      <i class="fa fa-power-off fa-lg green icon"></i>\
+    </div>\
+    <div class="switch-name">{{group.attributes.attributes.name}}</div>\
+    </div>\
+  <div v-else class="switch clickable" v-on:click="turnOn(group)">\
+    <div class="switch-status">\
+      <i class="fa fa-power-off fa-lg red icon"></i>\
+    </div>\
+    <div class="switch-name">{{group.attributes.attributes.name}}</div>\
+  </div>',
+  // template: '<h1 class="switch-name">yeaaah</h1>',
+  props: ['group'],
+  data: function() {
+    console.log('Data');
+    return {}
+  },
+  methods: {
+    turnOn: function(group) {
+      const postBody = JSON.stringify({"lights": group.attributes.attributes.lights});
+      fetch(hueApi.urls.turnOnSwitch, {method: 'POST', mode: 'cors', body: postBody, headers: postHeaders })
+        .then(response => response.json())
+        .then(data => app.hueGroups = data)
+    },
+    turnOff: function(group) {
+      const postBody = JSON.stringify({"lights": group.attributes.attributes.lights});
+      fetch(hueApi.urls.turnOffSwitch, {method: 'POST', mode: 'cors', body: postBody, headers: postHeaders })
+        .then(response => response.json())
+        .then(data => app.hueGroups = data)
+    }
+  }
+}
+
 const app = new Vue({
   el: '#app',
   data: {
@@ -70,12 +106,15 @@ const app = new Vue({
     tellstickSwitches: tellstickApi.enabled,
     hasSensors: ruuvitagApi.enabled,
     hasSwitches: false,
-    hasSwitchGroups: false
+    hasSwitchGroups: false,
+    hueGroups: hueApi.enabled,
+    hasHueGroups: false
   },
   components: {
     'ruuvitag': tagData,
     'tdsensor': tdSensorData,
-    'tdswitch': tdSwitchData
+    'tdswitch': tdSwitchData,
+    'hueswitch': hueSwitchData
   }
 })
 
@@ -115,9 +154,31 @@ function fetchTellstickData() {
   }
 }
 
+function fetchHueData() {
+  if (hueApi.enabled) {
+    console.log('hueApi enabled!');
+    // app.hueSwitches = 'Jee'
+    fetch(hueApi.urls.init, {headers: postHeaders}).then(initdata => {
+      fetch(hueApi.urls.hueGroups)
+      .then(response => response.json())
+      .then(data => {
+        app.hueGroups = data
+
+        console.log("GROUPS:", data);
+
+        if (data.length > 0) {
+          console.log('Yep, got hue groups!');
+          app.hasHueGroups = true;
+        }
+      })
+    })
+  }
+}
+
 function fetchData() {
   fetchRuuvitagData()
   fetchTellstickData()
+  fetchHueData()
 }
 
 fetchData()
